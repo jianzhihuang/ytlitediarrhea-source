@@ -40,7 +40,7 @@ def fetch_json(url: str) -> Any:
         url,
         headers={
             "Accept": "application/vnd.github+json",
-            "User-Agent": "ytlitediarrhea-sidestore-source-updater",
+            "User-Agent": "ytlitediarrhea-source-updater",
         },
     )
     with urllib.request.urlopen(request) as response:
@@ -50,7 +50,7 @@ def fetch_json(url: str) -> Any:
 def download_file(url: str, destination: Path) -> None:
     request = urllib.request.Request(
         url,
-        headers={"User-Agent": "ytlitediarrhea-sidestore-source-updater"},
+        headers={"User-Agent": "ytlitediarrhea-source-updater"},
     )
     with urllib.request.urlopen(request) as response, destination.open("wb") as handle:
         shutil.copyfileobj(response, handle)

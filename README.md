@@ -6,7 +6,7 @@ Auto-updating SideStore source for [diarrhea3/YTLiteDiarrhea](https://github.com
 
 Use this in SideStore after the first workflow run succeeds:
 
-`https://raw.githubusercontent.com/jianzhihuang/ytlitediarrhea-sidestore-source/main/apps.json`
+`https://raw.githubusercontent.com/jianzhihuang/ytlitediarrhea-source/main/apps.json`
 
 ## What It Does
 
