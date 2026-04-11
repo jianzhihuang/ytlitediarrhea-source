@@ -1,0 +1,54 @@
+name: Update YTLiteDiarrhea Source
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-apps-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Update apps.json from latest YTLiteDiarrhea release
+        env:
+          SOURCE_OWNER: diarrhea3
+          SOURCE_REPO: YTLiteDiarrhea
+          OUTPUT_PATH: apps.json
+          SOURCE_NAME: YTLiteDiarrhea
+          SOURCE_SUBTITLE: YouTubePlus source for SideStore
+          SOURCE_DESCRIPTION: SideStore source for YTLiteDiarrhea GitHub releases.
+          SOURCE_WEBSITE: https://github.com/diarrhea3/YTLiteDiarrhea
+          APP_NAME: YouTubePlus
+          APP_SUBTITLE: YTLiteDiarrhea build
+          APP_DESCRIPTION: YouTubePlus build from the YTLiteDiarrhea GitHub releases.
+          DEVELOPER_NAME: diarrhea3
+          APP_CATEGORY: social
+          ICON_URL: https://raw.githubusercontent.com/YTLitePlus/YTLitePlus-Altstore/main/Youtube_logo-512.png
+          TINT_COLOR: e22a41
+          MAX_VERSION_HISTORY: "10"
+          SKIP_RELEASE_NAME_REGEX: (?i)crashes on launch
+        run: python scripts/update_apps_json.py
+
+      - name: Commit and push if apps.json changed
+        run: |
+          if git diff --quiet -- apps.json; then
+            echo "apps.json is already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps.json
+          git commit -m "Update apps.json from latest YTLiteDiarrhea release"
+          git push
